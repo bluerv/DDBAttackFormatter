@@ -155,7 +155,7 @@ export function performHighlight(input: string, work: HighlightSet): string {
 
 function swapForTooltip(input: string, tooltip: string, words: string[]) {
     words.forEach((e) => {
-        const regex = new RegExp(`(${e})`, "gi");
+        const regex = new RegExp(`\\b(${e})\\b`, "gi");
         //console.log("Regex: ", regex);
         input = input.replace(regex, `[${tooltip}]$1[/${tooltip}]`);
     });
