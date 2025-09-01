@@ -2,7 +2,7 @@ import { Card } from "primereact/card";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
 import { HighlightSet, performHighlight, RulesSet } from "./performHighlight";
-import { Checkbox } from "primereact/checkbox";
+import SelectionCheck from "./SelectionCheck";
 
 function SuperHighlight() {
     const [textToHighlight, setTextToHighlight] = useState("");
@@ -14,6 +14,7 @@ function SuperHighlight() {
     const [showSpellArea, setShowSpellArea] = useState(true);
     const [showMovementAndExploration, setShowMovementAndExploration] =
         useState(true);
+    const [showAttitude, setShowAttitude] = useState(true);
 
     let rulesClass = "";
     const work: HighlightSet = {
@@ -37,6 +38,7 @@ function SuperHighlight() {
             combat: false,
             spellArea: false,
             movementAndExploration: false,
+            attitude: false,
         };
         if (showCombat) {
             rulesSet.combat = true;
@@ -46,6 +48,9 @@ function SuperHighlight() {
         }
         if (showMovementAndExploration) {
             rulesSet.movementAndExploration = true;
+        }
+        if (showAttitude) {
+            rulesSet.attitude = true;
         }
         work.rules = rulesSet;
     } else {
@@ -71,99 +76,49 @@ function SuperHighlight() {
             </Card>
             <Card title="Selections:">
                 <div className="field grid">
-                    <label className="col-6 justify-content-end">
-                        Substitute for Actions:
-                    </label>
-                    <div className="col-6 justify-content-start">
-                        <Checkbox
-                            checked={showActions}
-                            onChange={(e) =>
-                                setShowActions(e.checked ? true : false)
-                            }
-                            className="w-4"
-                        />
-                    </div>
-                    <label className="col-6 justify-content-end">
-                        Substitute for Conditions:
-                    </label>
-                    <div className="col-6 justify-content-start">
-                        <Checkbox
-                            checked={showConditions}
-                            onChange={(e) =>
-                                setShowConditions(e.checked ? true : false)
-                            }
-                            className="w-4"
-                        />
-                    </div>
-                    <label className="col-6 justify-content-end">
-                        Substitute for Skills:
-                    </label>
-                    <div className="col-6 justify-content-start">
-                        <Checkbox
-                            checked={showSkills}
-                            onChange={(e) =>
-                                setShowSkills(e.checked ? true : false)
-                            }
-                            className="w-4"
-                        />
-                    </div>
-                    <label className="col-6 justify-content-end">
-                        Substitute for Rules:
-                    </label>
-                    <div className="col-6 justify-content-start">
-                        <Checkbox
-                            checked={showRules}
-                            onChange={(e) =>
-                                setShowRules(e.checked ? true : false)
-                            }
-                            className="w-4"
-                        />
-                    </div>
+                    <SelectionCheck
+                        display="Substitute for Actions"
+                        isChecked={showActions}
+                        setIsChecked={setShowActions}
+                    />
+                    <SelectionCheck
+                        display="Substitute for Conditions"
+                        isChecked={showConditions}
+                        setIsChecked={setShowConditions}
+                    />
+                    <SelectionCheck
+                        display="Substitute for Skills"
+                        isChecked={showSkills}
+                        setIsChecked={setShowSkills}
+                    />
+                    <SelectionCheck
+                        display="Substitute for Rules"
+                        isChecked={showRules}
+                        setIsChecked={setShowRules}
+                    />
                     <div className="col-12">
                         <Card title="Rules" className={rulesClass}>
                             <div className="field grid">
-                                <label className="col-6 justify-content-end">
-                                    Substitute for Combat Rules:
-                                </label>
-                                <div className="col-6 justify-content-start">
-                                    <Checkbox
-                                        checked={showCombat}
-                                        onChange={(e) =>
-                                            setShowCombat(
-                                                e.checked ? true : false,
-                                            )
-                                        }
-                                        className="w-2"
-                                    />
-                                </div>
-                                <label className="col-6 justify-content-end">
-                                    Substitute for Spell Area Rules:
-                                </label>
-                                <div className="col-6 justify-content-start">
-                                    <Checkbox
-                                        checked={showSpellArea}
-                                        onChange={(e) =>
-                                            setShowSpellArea(
-                                                e.checked ? true : false,
-                                            )
-                                        }
-                                        className="w-4"
-                                    />
-                                </div>
-                                <label className="col-6 justify-content-end">
-                                    Substitute for Movement and Exploration Rules:
-                                </label>
-                                <div className="col-6 justify-content-start">
-                                    <Checkbox
-                                        checked={showMovementAndExploration}
-                                        onChange={(e) =>
-                                            setShowMovementAndExploration(
-                                                e.checked ? true : false,
-                                            )
-                                        }
-                                        className="w-4"
-                                    />
-                                </div>
+                                <SelectionCheck
+                                    display="Substitute for Combat Rules"
+                                    isChecked={showCombat}
+                                    setIsChecked={setShowCombat}
+                                />
+                                <SelectionCheck
+                                    display="Substitute for Spell Area Rules"
+                                    isChecked={showSpellArea}
+                                    setIsChecked={setShowSpellArea}
+                                />
+                                <SelectionCheck
+                                    display="Substitute for Movement and Exploration Rules"
+                                    isChecked={showMovementAndExploration}
+                                    setIsChecked={setShowMovementAndExploration}
+                                />
+                                <SelectionCheck
+                                    display="Substitute for Attitude Rules"
+                                    isChecked={showAttitude}
+                                    setIsChecked={setShowAttitude}
+                                />
                             </div>
                         </Card>
                     </div>
