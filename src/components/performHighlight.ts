@@ -3,6 +3,7 @@ import {
     attitudeRules,
     combatRules,
     conditions,
+    generalRules,
     hazardRules,
     movementAndExplanationRules,
     skills,
@@ -15,6 +16,7 @@ export interface RulesSet {
     movementAndExploration: boolean;
     attitude: boolean;
     hazards: boolean;
+    general: boolean;
 }
 
 export interface HighlightSet {
@@ -55,6 +57,9 @@ export function performHighlight(input: string, work: HighlightSet): string {
         }
         if (work.rules.hazards) {
             working = swapForTooltip(working, "rules", hazardRules)
+        }
+        if (work.rules.general) {
+            working = swapForTooltip(working, "rules", generalRules)
         }
     }
     return working;
