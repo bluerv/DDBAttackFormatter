@@ -121,3 +121,11 @@ export const attitudeRules = [
     "Hostile",
     "Indifferent",
 ];
+
+export const hazardRules = [
+    "Hazard",
+    "Burning",
+    "Dehydration",
+    "Malnutrition",
+    "Suffocation",
+];

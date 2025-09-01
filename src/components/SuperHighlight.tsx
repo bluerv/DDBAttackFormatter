@@ -15,6 +15,7 @@ function SuperHighlight() {
     const [showMovementAndExploration, setShowMovementAndExploration] =
         useState(true);
     const [showAttitude, setShowAttitude] = useState(true);
+    const [showHazards, setShowHazards] = useState(true);
 
     let rulesClass = "";
     const work: HighlightSet = {
@@ -39,6 +40,7 @@ function SuperHighlight() {
             spellArea: false,
             movementAndExploration: false,
             attitude: false,
+            hazards: false,
         };
         if (showCombat) {
             rulesSet.combat = true;
@@ -51,6 +53,9 @@ function SuperHighlight() {
         }
         if (showAttitude) {
             rulesSet.attitude = true;
+        }
+        if (showHazards) {
+            rulesSet.hazards = true;
         }
         work.rules = rulesSet;
     } else {
@@ -118,6 +123,11 @@ function SuperHighlight() {
                                     display="Substitute for Attitude Rules"
                                     isChecked={showAttitude}
                                     setIsChecked={setShowAttitude}
+                                />
+                                <SelectionCheck 
+                                    display="Substitute for Hazard Rules"
+                                    isChecked={showHazards}
+                                    setIsChecked={setShowHazards}
                                 />
                             </div>
                         </Card>

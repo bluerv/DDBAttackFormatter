@@ -3,6 +3,7 @@ import {
     attitudeRules,
     combatRules,
     conditions,
+    hazardRules,
     movementAndExplanationRules,
     skills,
     spellAreaRules,
@@ -13,6 +14,7 @@ export interface RulesSet {
     spellArea: boolean;
     movementAndExploration: boolean;
     attitude: boolean;
+    hazards: boolean;
 }
 
 export interface HighlightSet {
@@ -48,8 +50,11 @@ export function performHighlight(input: string, work: HighlightSet): string {
                 movementAndExplanationRules,
             );
         }
-        if(work.rules.attitude) {
-            working = swapForTooltip(working,"rules", attitudeRules)
+        if (work.rules.attitude) {
+            working = swapForTooltip(working, "rules", attitudeRules);
+        }
+        if (work.rules.hazards) {
+            working = swapForTooltip(working, "rules", hazardRules)
         }
     }
     return working;
