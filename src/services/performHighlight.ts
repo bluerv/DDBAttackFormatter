@@ -23,6 +23,7 @@ export interface HighlightSet {
     actions: boolean;
     conditions: boolean;
     skills: boolean;
+    spells?: string[];
     rules?: RulesSet;
 }
 
@@ -37,6 +38,9 @@ export function performHighlight(input: string, work: HighlightSet): string {
     }
     if (work.skills) {
         working = swapForTooltip(working, "skill", skills);
+    }
+    if (work.spells && work.spells.length > 0) {
+        working = swapForTooltip(working, "spells", work.spells);
     }
     if (work.rules) {
         if (work.rules.combat) {

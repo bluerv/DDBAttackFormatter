@@ -1,5 +1,5 @@
 import { Card } from "primereact/card";
-import { damageTypes } from "./damageTypes";
+import { damageTypes } from "../services/damageTypes";
 import { Dropdown } from "primereact/dropdown";
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";

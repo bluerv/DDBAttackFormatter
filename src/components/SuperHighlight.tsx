@@ -1,14 +1,19 @@
+import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { InputTextarea } from "primereact/inputtextarea";
+import { ProgressSpinner } from "primereact/progressspinner";
 import { useState } from "react";
-import { HighlightSet, performHighlight, RulesSet } from "./performHighlight";
+import { HighlightSet, performHighlight, RulesSet } from "../services/performHighlight";
 import SelectionCheck from "./SelectionCheck";
+import { useSpells } from "../services/useSpells";
 
 function SuperHighlight() {
     const [textToHighlight, setTextToHighlight] = useState("");
+    const [result, setResult] = useState("");
     const [showActions, setShowActions] = useState(true);
     const [showConditions, setShowConditions] = useState(true);
     const [showSkills, setShowSkills] = useState(true);
+    const [showSpells, setShowSpells] = useState(true);
     const [showRules, setShowRules] = useState(true);
     const [showCombat, setShowCombat] = useState(true);
     const [showSpellArea, setShowSpellArea] = useState(true);
@@ -18,56 +23,30 @@ function SuperHighlight() {
     const [showHazards, setShowHazards] = useState(true);
     const [showGeneral, setShowGeneral] = useState(true);
 
-    let rulesClass = "";
-    const work: HighlightSet = {
-        actions: false,
-        conditions: false,
-        skills: false,
-    };
+    const { spells, loading: spellsLoading, error: spellsError } = useSpells();
 
-    if (showActions) {
-        work.actions = true;
-    }
-    if (showConditions) {
-        work.conditions = true;
-    }
-    if (showSkills) {
-        work.skills = true;
-    }
+    const rulesClass = showRules ? "" : "container-disabled";
 
-    if (showRules) {
+    function handleGo() {
         const rulesSet: RulesSet = {
-            combat: false,
-            spellArea: false,
-            movementAndExploration: false,
-            attitude: false,
-            hazards: false,
-            general: false,
+            combat: showCombat,
+            spellArea: showSpellArea,
+            movementAndExploration: showMovementAndExploration,
+            attitude: showAttitude,
+            hazards: showHazards,
+            general: showGeneral,
         };
-        if (showCombat) {
-            rulesSet.combat = true;
-        }
-        if (showSpellArea) {
-            rulesSet.spellArea = true;
-        }
-        if (showMovementAndExploration) {
-            rulesSet.movementAndExploration = true;
-        }
-        if (showAttitude) {
-            rulesSet.attitude = true;
-        }
-        if (showHazards) {
-            rulesSet.hazards = true;
-        }
-        if (showGeneral) {
-            rulesSet.general = true;
-        }
-        work.rules = rulesSet;
-    } else {
-        rulesClass = "container-disabled"; // defined in App.css
-    }
 
-    const result = performHighlight(textToHighlight, work);
+        const work: HighlightSet = {
+            actions: showActions,
+            conditions: showConditions,
+            skills: showSkills,
+            spells: showSpells && !spellsLoading ? spells : undefined,
+            rules: showRules ? rulesSet : undefined,
+        };
+
+        setResult(performHighlight(textToHighlight, work));
+    }
 
     return (
         <>
@@ -101,6 +80,25 @@ function SuperHighlight() {
                         isChecked={showSkills}
                         setIsChecked={setShowSkills}
                     />
+                    <div className="col-12 flex align-items-center gap-2">
+                        <SelectionCheck
+                            display="Substitute for Spells"
+                            isChecked={showSpells}
+                            setIsChecked={setShowSpells}
+                        />
+                        {spellsLoading && (
+                            <span className="flex align-items-center gap-1">
+                                <ProgressSpinner style={{ width: "1.25rem", height: "1.25rem" }} strokeWidth="6" />
+                                <small>Loading spell list…</small>
+                            </span>
+                        )}
+                        {spellsError && (
+                            <small className="p-error">Could not load spells: {spellsError}</small>
+                        )}
+                        {!spellsLoading && !spellsError && (
+                            <small className="text-color-secondary">{spells.length} spells loaded</small>
+                        )}
+                    </div>
                     <SelectionCheck
                         display="Substitute for Rules"
                         isChecked={showRules}
@@ -154,11 +152,19 @@ function SuperHighlight() {
                             rows={20}
                         />
                     </div>
+                    <div className="col-12 flex justify-content-end">
+                        <Button
+                            label="Go"
+                            icon="pi pi-play"
+                            onClick={handleGo}
+                            disabled={spellsLoading}
+                        />
+                    </div>
                 </div>
             </Card>
 
             <Card title="Output">
-                <div>{result}</div>
+                <div>{result || <span className="text-color-secondary">Output will appear here after clicking Go.</span>}</div>
             </Card>
         </>
     );

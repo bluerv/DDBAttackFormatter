@@ -7,8 +7,8 @@ import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { DisplayAttackOutput } from "./DisplayAttackOutput";
 import { Card } from "primereact/card";
-import { damageTypes } from "./damageTypes";
-import { parseAttackText } from "./parseAttackText";
+import { damageTypes } from "../services/damageTypes";
+import { parseAttackText } from "../services/parseAttackText";
 
 const attackTypes = ["Melee Weapon Attack", "Ranged Weapon Attack"];
 

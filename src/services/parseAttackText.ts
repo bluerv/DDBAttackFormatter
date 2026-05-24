@@ -17,7 +17,7 @@ export function parseAttackText(text: string): ParsedAttack {
     const result: ParsedAttack = {};
 
     // Attack name and optional recharge — everything before the first period
-    const nameMatch = text.match(/^(.+?)(?:\s*\(Recharge\s*([\d\-]+)\))?\s*\./);
+    const nameMatch = text.match(/^(.+?)(?:\s*\(Recharge\s*([\d-]+)\))?\s*\./);
     if (nameMatch) {
         result.attackName = nameMatch[1].trim();
         if (nameMatch[2]) {
