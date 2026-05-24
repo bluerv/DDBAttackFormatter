@@ -4,9 +4,11 @@ import { InputNumber } from "primereact/inputnumber";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
+import { Button } from "primereact/button";
 import { DisplayAttackOutput } from "./DisplayAttackOutput";
 import { Card } from "primereact/card";
 import { damageTypes } from "./damageTypes";
+import { parseAttackText } from "./parseAttackText";
 
 const attackTypes = ["Melee Weapon Attack", "Ranged Weapon Attack"];
 
@@ -46,11 +48,38 @@ function MonsterAttack() {
     const [randomDamage, setRandomDamage] = useState("1d6+2");
     const [damageType, setDamageType] = useState("slashing");
     const [recharge, setRecharge] = useState<string>("");
+    const [scratchPad, setScratchPad] = useState("");
+
+    function handleParse() {
+        const parsed = parseAttackText(scratchPad);
+        if (parsed.attackName !== undefined) setAttackName(parsed.attackName);
+        if (parsed.hasRecharge !== undefined) setHasRecharge(parsed.hasRecharge);
+        if (parsed.recharge !== undefined) setRecharge(parsed.recharge);
+        if (parsed.attackType !== undefined) setAttackType(parsed.attackType);
+        if (parsed.toHitBonus !== undefined) setToHitBonus(parsed.toHitBonus);
+        if (parsed.reach !== undefined) setReach(parsed.reach);
+        if (parsed.target !== undefined) setTarget(parsed.target);
+        if (parsed.fixedDamage !== undefined) setFixedDamage(parsed.fixedDamage);
+        if (parsed.randomDamage !== undefined) setRandomDamage(parsed.randomDamage);
+        if (parsed.damageType !== undefined) setDamageType(parsed.damageType);
+    }
 
     return (
         <>
             <Card title="Scratch pad">
-                <InputTextarea autoResize className="w-full h-5rem" />
+                <InputTextarea
+                    autoResize
+                    className="w-full h-5rem"
+                    value={scratchPad}
+                    onChange={(e) => setScratchPad(e.target.value)}
+                    placeholder="Paste a DDB attack block here, then click Parse"
+                />
+                <Button
+                    label="Parse"
+                    className="mt-2"
+                    onClick={handleParse}
+                    disabled={!scratchPad.trim()}
+                />
             </Card>
             <Card title="Selections:">
                 <div className="field grid">
