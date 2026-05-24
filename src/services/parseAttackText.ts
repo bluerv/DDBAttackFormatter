@@ -17,7 +17,7 @@ export function parseAttackText(text: string): ParsedAttack {
     const result: ParsedAttack = {};
 
     // Attack name and optional recharge — everything before the first period
-    const nameMatch = text.match(/^(.+?)(?:\s*\(Recharge\s*([\d-]+)\))?\s*\./);
+    const nameMatch = text.match(/^(.+?)(?:\s*\(Recharge\s*([\d-]+)\))?\s*[.:]/);
     if (nameMatch) {
         result.attackName = nameMatch[1].trim();
         if (nameMatch[2]) {
@@ -30,7 +30,7 @@ export function parseAttackText(text: string): ParsedAttack {
 
     // Attack type — order matters: check combined form first
     const attackTypeMatch = text.match(
-        /(Melee or Ranged Weapon Attack|Melee Weapon Attack|Ranged Weapon Attack|Melee Spell Attack|Ranged Spell Attack)/
+        /(Melee or Ranged Weapon Attack|Melee Weapon Attack|Ranged Weapon Attack|Melee Spell Attack|Ranged Spell Attack|Melee Attack Roll|Ranged Attack Roll)/
     );
     if (attackTypeMatch) {
         result.attackType = attackTypeMatch[1];

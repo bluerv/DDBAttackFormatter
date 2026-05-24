@@ -42,6 +42,13 @@ function RechargeAction() {
 
     return (
         <>
+            <Card title="Scratch pad">
+                <InputTextarea
+                    autoResize
+                    className="w-full h-5rem"
+                    placeholder="Scratch pad for your use"
+                />
+            </Card>   
             <Card title="Selections:">
                 <div className="field grid">
                     <label className="col-12 mb-2 md:col-2 md:mb-0">

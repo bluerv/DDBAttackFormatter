@@ -1,5 +1,6 @@
 import "./App.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+import "primeicons/primeicons.css";
 
 import { TabView, TabPanel } from "primereact/tabview";
 

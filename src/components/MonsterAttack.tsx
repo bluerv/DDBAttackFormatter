@@ -10,7 +10,7 @@ import { Card } from "primereact/card";
 import { damageTypes } from "../services/damageTypes";
 import { parseAttackText } from "../services/parseAttackText";
 
-const attackTypes = ["Melee Weapon Attack", "Ranged Weapon Attack"];
+const attackTypes = ["Melee Weapon Attack", "Ranged Weapon Attack", "Melee Attack Roll", "Ranged Attack Roll"];
 
 interface Props {
     recharge: Dispatch<SetStateAction<string>>;
