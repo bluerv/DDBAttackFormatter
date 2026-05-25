@@ -1,7 +1,6 @@
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { InputTextarea } from "primereact/inputtextarea";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { useState } from "react";
 import {
     HighlightSet,
@@ -87,35 +86,21 @@ function SuperHighlight() {
                         isChecked={showSkills}
                         setIsChecked={setShowSkills}
                     />
-                    <div className="col-12 flex align-items-center gap-2">
+                    {spellsLoading && (
+                        <div className="col-12  text-center">Spells Loading</div>
+                    )}
+                    {spellsError && (
+                            <small className="col-12  text-center p-error">
+                                Could not load spells: {spellsError}
+                            </small>
+                        )}
+                    {!spellsLoading && (
                         <SelectionCheck
                             display="Substitute for Spells"
                             isChecked={showSpells}
                             setIsChecked={setShowSpells}
                         />
-                        {spellsLoading && (
-                            <span className="flex align-items-center gap-1">
-                                <ProgressSpinner
-                                    style={{
-                                        width: "1.25rem",
-                                        height: "1.25rem",
-                                    }}
-                                    strokeWidth="6"
-                                />
-                                <small>Loading spell list…</small>
-                            </span>
-                        )}
-                        {spellsError && (
-                            <small className="p-error">
-                                Could not load spells: {spellsError}
-                            </small>
-                        )}
-                        {!spellsLoading && !spellsError && (
-                            <small className="text-color-secondary">
-                                {spells.length} spells loaded
-                            </small>
-                        )}
-                    </div>
+                    )}
                     <SelectionCheck
                         display="Substitute for Rules"
                         isChecked={showRules}
@@ -190,7 +175,7 @@ function SuperHighlight() {
                         onClick={handleCopy}
                     />
                 </div>
-                <span ref={outputRef}>
+                <span ref={outputRef} style={{ whiteSpace: 'pre-wrap' }}>
                     {result || (
                         <span className="text-color-secondary">
                             Output will appear here after clicking Go.
