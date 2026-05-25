@@ -3,11 +3,18 @@ import { Card } from "primereact/card";
 import { InputTextarea } from "primereact/inputtextarea";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { useState } from "react";
-import { HighlightSet, performHighlight, RulesSet } from "../services/performHighlight";
+import {
+    HighlightSet,
+    performHighlight,
+    RulesSet,
+} from "../services/performHighlight";
 import SelectionCheck from "./SelectionCheck";
 import { useSpells } from "../services/useSpells";
+import { useClipboardCopy } from "../hooks/useClipboardCopy";
 
 function SuperHighlight() {
+    const { ref: outputRef, handleCopy } = useClipboardCopy<HTMLSpanElement>();
+
     const [textToHighlight, setTextToHighlight] = useState("");
     const [result, setResult] = useState("");
     const [showActions, setShowActions] = useState(true);
@@ -88,15 +95,25 @@ function SuperHighlight() {
                         />
                         {spellsLoading && (
                             <span className="flex align-items-center gap-1">
-                                <ProgressSpinner style={{ width: "1.25rem", height: "1.25rem" }} strokeWidth="6" />
+                                <ProgressSpinner
+                                    style={{
+                                        width: "1.25rem",
+                                        height: "1.25rem",
+                                    }}
+                                    strokeWidth="6"
+                                />
                                 <small>Loading spell list…</small>
                             </span>
                         )}
                         {spellsError && (
-                            <small className="p-error">Could not load spells: {spellsError}</small>
+                            <small className="p-error">
+                                Could not load spells: {spellsError}
+                            </small>
                         )}
                         {!spellsLoading && !spellsError && (
-                            <small className="text-color-secondary">{spells.length} spells loaded</small>
+                            <small className="text-color-secondary">
+                                {spells.length} spells loaded
+                            </small>
                         )}
                     </div>
                     <SelectionCheck
@@ -164,7 +181,22 @@ function SuperHighlight() {
             </Card>
 
             <Card title="Output">
-                <div>{result || <span className="text-color-secondary">Output will appear here after clicking Go.</span>}</div>
+                <div>
+                    <Button
+                        icon="pi pi-copy"
+                        aria-label="Copy"
+                        tooltip="Copy"
+                        outlined
+                        onClick={handleCopy}
+                    />
+                </div>
+                <span ref={outputRef}>
+                    {result || (
+                        <span className="text-color-secondary">
+                            Output will appear here after clicking Go.
+                        </span>
+                    )}
+                </span>
             </Card>
         </>
     );

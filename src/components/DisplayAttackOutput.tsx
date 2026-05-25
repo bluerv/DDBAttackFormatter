@@ -1,6 +1,6 @@
-import { useRef } from "react";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
+import { useClipboardCopy } from "../hooks/useClipboardCopy";
 
 interface props {
     attackName: string;
@@ -26,23 +26,11 @@ export function DisplayAttackOutput({
     hasRecharge,
     recharge,
 }: props) {
-    const outputRef = useRef<HTMLSpanElement>(null);
+    const { ref: outputRef, handleCopy } = useClipboardCopy<HTMLSpanElement>();
 
     const rechargeNotation = ` [rollable](Recharge ${recharge});{"diceNotation":"1d6","rollType":"recharge","rollAction":"${attackName}"}[/rollable]`;
 
     const damageNotation = `[rollable]+${toHitBonus};{"diceNotation":"1d20+${toHitBonus}","rollType":"to hit","rollAction":"${attackName}"}[/rollable] to hit, reach ${reach} ft., ${target} target. Hit: ${fixedDamage} [rollable](${randomDamage});{"diceNotation":"${randomDamage}","rollType":"damage","rollAction":"${attackName}","rollDamageType":"${damageType}"}[/rollable] ${damageType} damage.`;
-
-    const handleCopy = async () => {
-        if (!outputRef.current) return;
-        const html = outputRef.current.innerHTML;
-        const text = outputRef.current.innerText;
-        await navigator.clipboard.write([
-            new ClipboardItem({
-                "text/html": new Blob([html], { type: "text/html" }),
-                "text/plain": new Blob([text], { type: "text/plain" }),
-            }),
-        ]);
-    };
 
     return (
         <Card title="Generated Output">

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { InputTextarea } from "primereact/inputtextarea";
+import { Button } from "primereact/button";
+import { useClipboardCopy } from "../hooks/useClipboardCopy";
 
 const savingThrowTypes = [
     "Strength",
@@ -16,6 +18,9 @@ const savingThrowTypes = [
 ];
 
 function RechargeAction() {
+    const { ref: outputRef, handleCopy } = useClipboardCopy<HTMLSpanElement>();
+
+
     const [actionName, setActionName] = useState("Lightning Breath");
     const [damageType, setDamageType] = useState("lightning");
     const [fixedDamage, setFixedDamage] = useState<number | null>(66);
@@ -48,7 +53,7 @@ function RechargeAction() {
                     className="w-full h-5rem"
                     placeholder="Scratch pad for your use"
                 />
-            </Card>   
+            </Card>
             <Card title="Selections:">
                 <div className="field grid">
                     <label className="col-12 mb-2 md:col-2 md:mb-0">
@@ -163,10 +168,22 @@ function RechargeAction() {
             </Card>
 
             <Card title="Generated Output:">
-                <b>{actionPreamble}</b>.&nbsp;&nbsp;{actionDescription}&nbsp;
-                {savingThrowPreamble}&nbsp;DC {savingThrowDc}&nbsp;
-                <i>{savingThrow} saving throw</i>, taking&nbsp;
-                {effectOnFailure}, or {effectOnSuccess}.
+                <div>
+                    <Button
+                        icon="pi pi-copy"
+                        aria-label="Copy"
+                        tooltip="Copy"
+                        outlined
+                        onClick={handleCopy}
+                    />
+                </div>
+                <span ref={outputRef}>
+                    <b>{actionPreamble}</b>.&nbsp;&nbsp;{actionDescription}
+                    &nbsp;
+                    {savingThrowPreamble}&nbsp;DC {savingThrowDc}&nbsp;
+                    <i>{savingThrow} saving throw</i>, taking&nbsp;
+                    {effectOnFailure}, or {effectOnSuccess}.
+                </span>
             </Card>
         </>
     );
