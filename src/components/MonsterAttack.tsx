@@ -10,7 +10,12 @@ import { Card } from "primereact/card";
 import { damageTypes } from "../services/damageTypes";
 import { parseAttackText } from "../services/parseAttackText";
 
-const attackTypes = ["Melee Weapon Attack", "Ranged Weapon Attack", "Melee Attack Roll", "Ranged Attack Roll"];
+const attackTypes = [
+    "Melee Weapon Attack",
+    "Ranged Weapon Attack",
+    "Melee Attack Roll",
+    "Ranged Attack Roll",
+];
 
 interface Props {
     recharge: Dispatch<SetStateAction<string>>;
@@ -53,19 +58,26 @@ function MonsterAttack() {
     function handleParse() {
         const parsed = parseAttackText(scratchPad);
         if (parsed.attackName !== undefined) setAttackName(parsed.attackName);
-        if (parsed.hasRecharge !== undefined) setHasRecharge(parsed.hasRecharge);
+        if (parsed.hasRecharge !== undefined)
+            setHasRecharge(parsed.hasRecharge);
         if (parsed.recharge !== undefined) setRecharge(parsed.recharge);
         if (parsed.attackType !== undefined) setAttackType(parsed.attackType);
         if (parsed.toHitBonus !== undefined) setToHitBonus(parsed.toHitBonus);
         if (parsed.reach !== undefined) setReach(parsed.reach);
         if (parsed.target !== undefined) setTarget(parsed.target);
-        if (parsed.fixedDamage !== undefined) setFixedDamage(parsed.fixedDamage);
-        if (parsed.randomDamage !== undefined) setRandomDamage(parsed.randomDamage);
+        if (parsed.fixedDamage !== undefined)
+            setFixedDamage(parsed.fixedDamage);
+        if (parsed.randomDamage !== undefined)
+            setRandomDamage(parsed.randomDamage);
         if (parsed.damageType !== undefined) setDamageType(parsed.damageType);
     }
 
     return (
         <>
+            <Card title="Overview">
+                This utility is intended to allow easy creation of attack
+                actions that have clickable areas enabled.
+            </Card>
             <Card title="Scratch pad">
                 <InputTextarea
                     autoResize

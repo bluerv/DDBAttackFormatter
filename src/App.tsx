@@ -11,6 +11,7 @@ import SuperHighlight from "./components/SuperHighlight";
 function App() {
     return (
         <>
+        <h1>D&D Beyond Utilities</h1>
             <TabView>
                 <TabPanel header="Monster Attack Actions">
                     <MonsterAttack />

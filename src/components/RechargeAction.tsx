@@ -20,7 +20,6 @@ const savingThrowTypes = [
 function RechargeAction() {
     const { ref: outputRef, handleCopy } = useClipboardCopy<HTMLSpanElement>();
 
-
     const [actionName, setActionName] = useState("Lightning Breath");
     const [damageType, setDamageType] = useState("lightning");
     const [fixedDamage, setFixedDamage] = useState<number | null>(66);
@@ -47,6 +46,11 @@ function RechargeAction() {
 
     return (
         <>
+            <Card title="Overview">
+                This utility is intended to allow easy creation of non-attack
+                actions that have clickable areas enabled.
+            </Card>
+
             <Card title="Scratch pad">
                 <InputTextarea
                     autoResize
